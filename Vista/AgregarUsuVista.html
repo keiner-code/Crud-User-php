@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1 style="text-align: center;">Crud Usuario</h1>
+                <form action="index.php" method="post">
+                    <div class="form-group">
+                        <label for="NombreUsuario">Nombre Usuario</label>
+                        <input class="form-control" id="NombreUsuario" type="text" name="NombreUsuario" placeholder="Ingrese El Nombre De Usuario">
+                    </div>
+                    <div class="form-group">
+                        <label for="Password">Password</label>
+                        <input class="form-control" id="Password" type="Password" name="Password" placeholder="Ingrese El Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="Nombre">Nombre</label>
+                        <input class="form-control" id="Nombre" type="text" name="Nombre" placeholder="Ingrese El Nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="Apellido">Apellido</label>
+                        <input class="form-control" type="text" id="Apellido" name="Apellido" placeholder="Ingrese El Apellido">
+                    </div>
+                    <div class="form-group">
+                        <label for="FechaNacimiento">Fecha Nacimiento</label>
+                        <input class="form-control" type="text" id="FechaNacimiento" name="FechaNacimiento" placeholder="Ingrese La Fecha De Nacimiento">
+                    </div>
+                    <div class="form-group">
+                        <label for="Correo">Correo</label>
+                        <input class="form-control" type="text" id="Correo" name="Correo" placeholder="Ingrese El Correo">
+                    </div>
+                    <div class="form-group">
+                        <label for="Creditos">Creditos</label>
+                        <input class="form-control" type="text" id="Creditos" name="Creditos" placeholder="Creditos">
+                    </div>
+                    <div class="form-group">
+                            <input class="btn btn-outline-primary" type="submit" name="Ingresar" value="Ingresar">
+                            <input type="hidden" name="controlador" value="UsuarioControl">
+                            <input type="hidden" name="vista1" value="AgregarUsuVista">
+                            <input type="hidden" name="accion" value="AgregarUsu">
+
+                            <input type="hidden" name="accionListar" value="ListaUsuar">
+                            <input class="btn btn-outline-secondary" type="submit" value="Listar" name="listar">
+
+                            <input type="hidden" name="accionbuscar" value="BuscarUsuarios">
+                            <input class="btn btn-outline-info" type="submit" value="Buscar" name="buscar">
+
+                            <input type="hidden" name="accionactualizar" value="ActualizarUsu">
+                            <input class="btn btn-outline-success" type="submit" value="Actualizar" name="actualizar">
+
+                            <input type="hidden" name="accionaEliminar" value="EliminarUsu">
+                            <input class="btn btn-outline-danger" type="submit" value="Eliminar" name="eliminar">
+                        </div>
+                </form>
+                <form action="index.php" method="post">
+                    <div class="form-group">
+                        
+                        
+                        <input type="hidden" name="controlador" value="UsuarioControl">
+                        
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6">
+                      
+                <?php
+                   if (isset($_POST["buscar"])) {
+                       require_once("Controlador/UsuarioControl.php");
+                       $usuC = new UsuarioControl();
+                       $res = $usuC->BuscarUsuarios($_POST["Password"]);
+                       echo "<script>document.getElementById('NombreUsuario').value = '{$res[0][0]}'</script>";
+                       echo "<script>document.getElementById(Password').value = '{$res[0][1]}'</script>";
+                       echo "<script>document.getElementById('Nombre').value = '{$res[0][2]}'</script>";
+                       echo "<script>document.getElementById('Apellido').value = '{$res[0][3]}'</script>";
+                       echo "<script>document.getElementById('FechaNacimiento').value = '{$res[0][4]}'</script>";
+                       echo "<script>document.getElementById('Correo').value = '{$res[0][5]}'</script>";
+                       echo "<script>document.getElementById('Creditos').value = '{$res[0][6]}'</script>";
+                   }
+
+                   if(isset($_POST["listar"])){
+                   require_once("Controlador/UsuarioControl.php");
+                   $usu = new UsuarioControl();
+                   $var = $usu->ListaUsuar();
+                     echo"<h1 style='text-align: center;'>Lista De Usuarios</h1>";
+                       echo'<table class="table">'; 
+                       echo"<tr>";
+                       echo'<th scope="col">Nombre Usuario</th>';
+                       echo'<th scope="col">"Password</th>';
+                       echo'<th scope="col">Nombre</th>';
+                       echo'<th scope="col">Apellido</th>';
+                       echo'<th scope="col">Fecha Nacimiento</th>';
+                       echo'<th scope="col">Correo</th>';
+                       echo'<th scope="col">"Creditos</th>';
+                       echo'</tr>';
+                       
+                        for($i=0;$i<count($var);$i++){
+                            echo"<tr>";
+                            echo"<td>",$var[$i][0],"</td>";
+                            echo"<td>",$var[$i][1],"</td>";
+                            echo"<td>",$var[$i][2],"</td>";
+                            echo"<td>",$var[$i][3],"</td>";
+                            echo"<td>",$var[$i][4],"</td>";
+                            echo"<td>",$var[$i][5],"</td>";
+                            echo"<td>",$var[$i][6],"</td>";
+                            echo"</tr>";
+                        }
+                        echo"</table>";
+            }
+
+                ?>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
